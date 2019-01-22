@@ -51,4 +51,12 @@ class AssemblerErrorsTest {
         val (_, errors) = Assembler.assemble("foo: nop\nfoo: nop")
         assertTrue(errors.isNotEmpty())
     }
+
+    @Test fun numbericErrorLabels() {
+        val (prog, errors) = Assembler.assemble("""
+        1:  addi x1 x0 5
+            j 2f
+        """)
+        assertTrue(errors.isNotEmpty())
+    }
 }
