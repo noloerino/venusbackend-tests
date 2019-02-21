@@ -8,6 +8,7 @@ import venusbackend.assembler.Assembler
 import venus.vfs.VirtualFileSystem
 import venusbackend.linker.Linker
 import venusbackend.linker.ProgramAndLibraries
+import venusbackend.riscv.Registers
 
 class FunctionCallTest {
     @Test
@@ -149,5 +150,52 @@ class FunctionCallTest {
         val sim = Simulator(linked, state = SimulatorState64())
         sim.run()
         assertEquals(7L, sim.getReg(8).toLong())
+    }
+
+    @Test
+    fun jrRAWithGMain() {
+        val (prog, _) = Assembler.assemble("""
+        .globl main
+        double:
+            add a0 a0 a0
+            jr ra
+        main:
+            addi a0 x0 5
+            mv s0 ra
+            jal ra double
+            mv ra s0
+            jr ra
+        """)
+        val PandL = ProgramAndLibraries(listOf(prog), VirtualFileSystem("dummy"))
+        val linked = Linker.link(PandL)
+        val sim = Simulator(linked, state = SimulatorState64())
+        sim.run()
+        assertEquals(7, sim.getCycles())
+    }
+
+    @Test
+    fun jrRAWithoutGMain() {
+        val (prog, _) = Assembler.assemble("""
+            nop
+            addi ra x0 44
+            nop
+            nop
+            double:
+                add a0 a0 a0
+                jr ra
+            main:
+                addi a0 x0 5
+                mv s0 ra
+                jal ra double
+                mv ra s0
+                jr ra
+        """)
+        val PandL = ProgramAndLibraries(listOf(prog), VirtualFileSystem("dummy"))
+        val linked = Linker.link(PandL)
+        val sim = Simulator(linked, state = SimulatorState64())
+        assertEquals(0, sim.getReg(Registers.ra).toInt())
+        sim.run()
+        assertEquals(6, sim.getCycles())
+        assertEquals(0, sim.getReg(Registers.a0).toInt())
     }
 }
