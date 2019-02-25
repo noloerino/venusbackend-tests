@@ -60,10 +60,16 @@ class AssemblerErrorsTest {
         assertTrue(errors.isNotEmpty())
     }
 
-    @Test fun loadStoreArgsError() {
+    @Test fun loadStoreArgsAsRegError() {
         val (_, e, w) = Assembler.assemble("""lw s0 s0""")
         assertTrue(e.isEmpty())
         assertTrue(w.isNotEmpty())
+    }
+
+    @Test fun loadStoreArgsNotRegError() {
+        val (_, e, w) = Assembler.assemble("""lw s0 hi""")
+        assertTrue(e.isEmpty())
+        assertTrue(w.isEmpty())
     }
 
     @Test fun loadStoreMismatchedError() {
