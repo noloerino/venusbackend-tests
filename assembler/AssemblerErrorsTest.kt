@@ -76,4 +76,9 @@ class AssemblerErrorsTest {
         val (_, e, w) = Assembler.assemble("""lw s0 (4)x1""")
 //        assertTrue(e.isNotEmpty())
     }
+
+    @Test fun jalrAsLoadStoreError() {
+        val (_, e, w) = Assembler.assemble("""jalr x0 0(x0)""")
+        assertTrue(e.isNotEmpty())
+    }
 }
