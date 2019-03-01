@@ -87,6 +87,11 @@ class AssemblerErrorsTest {
 //        assertTrue(e.isNotEmpty())
 //    }
 
+//    @Test fun loadMismatchParenError() {
+//        val (_, e, w) = Assembler.assemble("""lw x0 (4)x1""")
+//        assertTrue(e.isNotEmpty())
+//    }
+
     @Test fun loadOnlyEndParenError() {
         val (_, e, w) = Assembler.assemble("""lw s0 4)x1""")
         assertTrue(e.isNotEmpty())
