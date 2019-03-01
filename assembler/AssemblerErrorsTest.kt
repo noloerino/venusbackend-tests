@@ -60,7 +60,7 @@ class AssemblerErrorsTest {
         assertTrue(errors.isNotEmpty())
     }
 
-    @Test fun loadStoreArgsAsRegError() {
+    @Test fun loadArgsAsRegError() {
         val (_, e, w) = Assembler.assemble("""lw s0 s0""")
         assertTrue(e.isEmpty())
         assertTrue(w.isNotEmpty())
@@ -72,9 +72,39 @@ class AssemblerErrorsTest {
         assertTrue(w.isEmpty())
     }
 
-    @Test fun loadStoreMismatchedError() {
-        val (_, e, w) = Assembler.assemble("""lw s0 (4)x1""")
+//    @Test fun loadStoreMismatchedError() {
+//        val (_, e, w) = Assembler.assemble("""lw s0 (4)x1""")
 //        assertTrue(e.isNotEmpty())
+//    }
+
+//    @Test fun loadNoParenError() {
+//        val (_, e, w) = Assembler.assemble("""lw s0 4 x1""")
+//        assertTrue(e.isNotEmpty())
+//    }
+
+//    @Test fun StoreNoParenError() {
+//        val (_, e, w) = Assembler.assemble("""sw s0 4 x1""")
+//        assertTrue(e.isNotEmpty())
+//    }
+
+    @Test fun loadOnlyEndParenError() {
+        val (_, e, w) = Assembler.assemble("""lw s0 4)x1""")
+        assertTrue(e.isNotEmpty())
+    }
+
+    @Test fun loadFlippedParenError() {
+        val (_, e, w) = Assembler.assemble("""lw s0 )4(x1""")
+        assertTrue(e.isNotEmpty())
+    }
+
+    @Test fun ITypeWithParenError() {
+        val (_, e, w) = Assembler.assemble("""addi x0 x0 (0)""")
+        assertTrue(e.isNotEmpty())
+    }
+
+    @Test fun IDisplacedNotationError() {
+        val (_, e, w) = Assembler.assemble("""addi x0 0(x0)""")
+        assertTrue(e.isNotEmpty())
     }
 
     @Test fun jalrAsLoadStoreError() {
