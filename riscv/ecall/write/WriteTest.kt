@@ -31,14 +31,25 @@ class WriteTest {
         if (bytes.length != expected_out.length) {
             assertEquals(expected_out, bytes)
         }
-        for (i in 0..bytes.length) {
-            val b = bytes[i].toShort().toByte()
+        val exp = expected_out
+        var i = 0
+        for (c in bytes) {
+            val b = c.toShort().toByte()
             val e = expected_out[i].toShort().toByte()
             val truth = b == e
             if (!truth) {
                 assertEquals(expected_out, bytes)
             }
+            i++
         }
+//        for (i in 0..bytes.length) {
+//            val b = bytes[i].toShort().toByte()
+//            val e = expected_out[i].toShort().toByte()
+//            val truth = b == e
+//            if (!truth) {
+//                assertEquals(expected_out, bytes)
+//            }
+//        }
     }
 }
 
