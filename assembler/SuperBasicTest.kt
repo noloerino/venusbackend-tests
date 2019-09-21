@@ -36,6 +36,7 @@ class SuperBasicTest {
         val PandL = ProgramAndLibraries(listOf(prog), VirtualFileSystem("dummy"))
         val linked = Linker.link(PandL)
         val sim = Simulator(linked)
+        sim.settings.allowAccessBtnStackHeap = true
         sim.run()
         assertEquals(5, sim.getReg(8))
         assertEquals(-56, sim.getReg(9))
