@@ -55,8 +55,8 @@ class WriteTest {
 
 val output_file_name = "final_output.bin"
 val expected_out = "\u0003\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u009a\u0099\u0099\u003f\u009a\u0099\u0019\u0040\u0033\u0033\u00b3\u0040\u00cd\u00cc\u00cc\u0040\u0033\u0033\u0013\u0040\u0000\u0000\u0090\u0040\u00cd\u00cc\u00cc\u0040\u0066\u0066\u00a6\u003f\u009a\u0099\u0059\u0040"
-val write_repo = """.import write_matrix.s
-.import utils.s
+val write_repo = """.import <write_matrix.s>
+.import <utils.s>
 
 .data
 output_path: .asciiz """" + output_file_name + """"
